@@ -8,4 +8,4 @@ A little about me:
 - I am taking STATS 220 because i'm interested in the coding and learning about what statistics is
 - I am interested in learning about math
 
-A meme that captures how I currently feel about my university studies is ![](https://tenor.com/3nFi.gif)
+A meme that captures how I currently feel about my university studies is ![]("https://tenor.com/3nFi.gif")
