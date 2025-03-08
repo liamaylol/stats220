@@ -1,5 +1,5 @@
 # stats220
-## by Cecilia
+### by Cecilia
 
 This is my repo for STATS 220. 
 
