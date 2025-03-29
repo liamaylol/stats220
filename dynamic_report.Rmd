@@ -1,0 +1,104 @@
+---
+title: My dynamic report
+output: html_fragment
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
+
+```
+
+```{css}
+body {
+  background-color: white;
+}
+h2 {
+  color: #F1B6DA;
+  text-align: center;
+  font-family: Helvetica;
+}
+h3 {
+  color: #F1B6DA;
+  font-family: Helvetica;
+}
+p {
+  font-family: Helvetica;
+}
+```
+
+## Note-Taking Methods in Differing Majors
+
+This survey was conducted to compare the differences in note-taking methods and how the paper being taught might impact this. All of this data was gathered in March of 2025 during MATHS130 and COMPSCI220 lectures at The University of Auckland over a period of 5 days. I used a randomiser to pick the row of which I observed each lecture, I then recorded and observed 4-5 people from the row over the 60 minute lecture.
+
+```{r echo=FALSE}
+library(tidyverse)
+library(readr)
+library(ggplot2)
+
+logged_data <- read_csv(("https://docs.google.com/spreadsheets/d/e/2PACX-1vTAkhafqZJIHgh8HVT5vSZ139Fnxmbv4BqtY3ZmFpcmOCv_2mt10FKIvGYLIzCMP-FaoQxUDUaVrviF/pub?gid=1121776332&single=true&output=csv"))
+
+latest_data <- logged_data %>%
+  rename(course = 2,
+         main_device = 3,
+         device_amount = 4,
+         other_device = 5)
+
+maths130_data <- latest_data$course == "MATHS130"
+maths130_devices <- c(latest_data$main_device[maths130_data], latest_data$other_device[maths130_data])
+maths130_devices <- maths130_devices[!is.na(maths130_devices) & maths130_devices != "No other device"]
+math_unique_devices <- unique(maths130_devices)
+math_num_devices <- length(math_unique_devices)
+
+compsci_rows <- latest_data$course == "COMPSCI220"
+compsci_devices <- c(latest_data$main_device[compsci_rows], latest_data$other_device[compsci_rows])
+compsci_devices <- compsci_devices[!is.na(compsci_devices) & compsci_devices != "No other device"]
+cs_unique_devices <- unique(compsci_devices)
+cs_num_devices <- length(cs_unique_devices)
+
+math_device_count <- table(maths130_devices)
+cs_device_count <- table(compsci_devices)
+
+math_most_used_device <- names(math_device_count[math_device_count == max(math_device_count)])
+math_device_usage <- max(math_device_count)
+
+cs_most_used_device <- names(cs_device_count[cs_device_count == max(cs_device_count)])
+cs_device_usage <- max(cs_device_count)
+
+```
+
+### Summary Values
+
+There were a total of `r math_num_devices` unique methods used for note-taking in my MATHS130 lectures, whereas in my COMPSCI220 lectures there were a total of `r cs_num_devices` unique note-taking methods.
+
+The most used method for the MATHS130 lectures were `r math_most_used_device`, and the most used method for COMPSCI220 were both `r cs_most_used_device`. For MATHS130 `r math_most_used_device` was used `r `math_device_usage` times, whereas in COMPSCI220 both `r cs_most_used_device` were used `r cs_device_usage` times.
+
+###  Comparison in Method Amount of Both Courses
+
+```{r echo=FALSE}
+latest_data %>%
+  ggplot() +
+    geom_bar(aes(x = device_amount, fill = course)) +
+  labs(title = "How many devices are being used for lecture note-taking?",
+       subtitle = "Observed in MATHS130 and COMPSCI220",
+       y = "Number of Students",
+       x = "Amount of devices used",
+       fill = "Course") +
+  scale_fill_manual (values = c("#F1B6DA", "#B2ABD2")) +
+  scale_x_continuous(breaks=c(0,1,2)) 
+```
+
+### Comparison of the Most Used Method in Both Courses
+
+```{r echo=FALSE}
+latest_data %>%
+  ggplot() +
+    geom_bar(aes(x = main_device, fill = course)) +
+  labs(title = "What was the most used method for note-taking?",
+       subtitle = "Observed in MATHS130 and COMPSCI220",
+       y = "Number of Students",
+       x = "Method of Note-Taking",
+       fill = "Course") +
+  scale_fill_manual (values = c("#F1B6DA", "#B2ABD2")) +
+  scale_y_continuous(breaks=c(0,2,4,6,8,10)) 
+```
+
