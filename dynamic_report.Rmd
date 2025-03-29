@@ -70,7 +70,7 @@ cs_device_usage <- max(cs_device_count)
 
 There were a total of `r math_num_devices` unique methods used for note-taking in my MATHS130 lectures, whereas in my COMPSCI220 lectures there were a total of `r cs_num_devices` unique note-taking methods.
 
-The most used method for the MATHS130 lectures were `r math_most_used_device`, and the most used method for COMPSCI220 were both `r cs_most_used_device`. For MATHS130 `r math_most_used_device` was used `r `math_device_usage` times, whereas in COMPSCI220 both `r cs_most_used_device` were used `r cs_device_usage` times.
+The most used method for the MATHS130 lectures were `r math_most_used_device`, and the most used method for COMPSCI220 were both `r cs_most_used_device`. For MATHS130 `r math_most_used_device` was used `r math_device_usage` times, whereas in COMPSCI220 both `r cs_most_used_device` were used `r cs_device_usage` times.
 
 ###  Comparison in Method Amount of Both Courses
 
